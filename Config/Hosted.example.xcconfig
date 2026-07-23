@@ -1,0 +1,7 @@
+#include "Release.xcconfig"
+
+// Copy outside the repository, set this file as the Release base configuration,
+// then keep the hosted origin on the same origin as the NexQuote SaaS API.
+NQ_APP_MODE = hosted
+NQ_HOSTED_SCHEME = https
+NQ_HOSTED_HOST = nexquoteapp.com

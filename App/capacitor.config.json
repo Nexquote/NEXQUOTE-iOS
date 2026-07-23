@@ -1,0 +1,7 @@
+{
+  "appId": "com.nexquote.app",
+  "appName": "NexQuote",
+  "webDir": "public",
+  "appendUserAgent": " NexQuoteApp/1.0",
+  "loggingBehavior": "none"
+}

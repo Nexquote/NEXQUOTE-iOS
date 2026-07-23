@@ -1,0 +1,15 @@
+.DS_Store
+.env*
+.swiftpm/
+DerivedData/
+artifacts/
+build/
+xcuserdata/
+*.cer
+*.ipa
+*.key
+*.mobileprovision
+*.p12
+*.xcarchive
+*.xcresult
+

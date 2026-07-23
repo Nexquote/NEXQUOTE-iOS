@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#10264d">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>NexQuote iOS</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="bridge.js" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <header class="brand" aria-label="NexQuote iOS local harness">
+      <div class="mark" aria-hidden="true">N</div>
+      <div>
+        <p class="eyebrow">NexQuote iOS</p>
+        <h1>Freight decisions, ready for review.</h1>
+      </div>
+    </header>
+
+    <section class="status-card" aria-labelledby="route-title">
+      <div class="status-row">
+        <span id="connection-dot" class="dot" aria-hidden="true"></span>
+        <span id="connection-label" role="status" aria-live="polite">Local harness ready</span>
+      </div>
+      <p class="eyebrow">Secure native route</p>
+      <h2 id="route-title">Decision inbox</h2>
+      <p id="route-path" class="route">/app/dashboard</p>
+      <p id="route-note" class="note">No production credentials required. Native routes remain allowlisted.</p>
+    </section>
+
+    <section id="share-card" class="share-card" aria-labelledby="share-title" hidden>
+      <p class="eyebrow">Share Extension handoff</p>
+      <h2 id="share-title">Shared content ready</h2>
+      <p id="share-text" class="note"></p>
+      <p class="privacy-note">Review only. The harness never generates, sends, or finalizes a quote.</p>
+    </section>
+
+    <div class="actions" aria-label="Harness actions">
+      <button id="quick-action" type="button">Simulate Quick Action</button>
+      <button id="offline-action" class="secondary" type="button">Show offline state</button>
+    </div>
+
+    <footer>
+      <span>Local bridge harness</span>
+      <span>VI / EN</span>
+    </footer>
+  </main>
+</body>
+</html>

@@ -1,0 +1,92 @@
+:root {
+  color-scheme: light dark;
+  font-family: ui-rounded, "SF Pro Rounded", "Avenir Next", sans-serif;
+  background: #eef3f9;
+  color: #10213f;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background:
+    radial-gradient(circle at 85% 8%, rgba(32, 132, 220, 0.16), transparent 34%),
+    linear-gradient(160deg, #f8fbff 0%, #eaf1f8 100%);
+}
+
+.shell {
+  width: min(100%, 34rem);
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: max(1rem, env(safe-area-inset-top)) 1rem max(1.25rem, env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.brand { display: flex; align-items: center; gap: 0.9rem; padding: 0.6rem 0.2rem; }
+.mark {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.9rem;
+  background: #15315e;
+  color: #eff6ff;
+  font-size: 1.5rem;
+  font-weight: 900;
+}
+
+h1, h2, p { margin: 0; }
+h1 { margin-top: 0.2rem; font-size: clamp(1.25rem, 5vw, 1.65rem); line-height: 1.12; }
+h2 { margin-top: 0.35rem; font-size: 1.3rem; }
+.eyebrow { color: #527096; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.13em; text-transform: uppercase; }
+
+.status-card, .share-card {
+  border: 1px solid rgba(49, 86, 130, 0.17);
+  border-radius: 1.35rem;
+  background: rgba(255, 255, 255, 0.88);
+  padding: 1.1rem;
+  box-shadow: 0 1.2rem 3rem rgba(17, 43, 80, 0.1);
+}
+
+.status-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; color: #356f58; font-size: 0.82rem; font-weight: 750; }
+.dot { width: 0.55rem; height: 0.55rem; border-radius: 50%; background: #26a269; }
+.route { margin-top: 0.55rem; color: #0b6fc2; font-family: ui-monospace, "SFMono-Regular", monospace; font-size: 0.84rem; overflow-wrap: anywhere; }
+.note { margin-top: 0.75rem; color: #56708e; line-height: 1.55; }
+.privacy-note { margin-top: 0.8rem; color: #855c0d; font-size: 0.82rem; line-height: 1.45; }
+
+.actions { display: grid; gap: 0.7rem; margin-top: auto; }
+button {
+  min-height: 3rem;
+  border: 0;
+  border-radius: 0.95rem;
+  background: #0c70d6;
+  color: white;
+  font: inherit;
+  font-weight: 800;
+}
+button.secondary { border: 1px solid #b9c9db; background: rgba(255, 255, 255, 0.82); color: #29496e; }
+button:focus-visible { outline: 3px solid rgba(12, 112, 214, 0.38); outline-offset: 2px; }
+
+footer { display: flex; justify-content: space-between; color: #6b819b; font-size: 0.74rem; }
+
+body.offline .status-row { color: #a45f05; }
+body.offline .dot { background: #d68a17; }
+
+@media (prefers-color-scheme: dark) {
+  :root { background: #08152b; color: #f0f6ff; }
+  body { background: radial-gradient(circle at 85% 8%, rgba(41, 163, 255, 0.17), transparent 32%), #08152b; }
+  .status-card, .share-card { border-color: rgba(171, 204, 241, 0.12); background: rgba(16, 38, 77, 0.92); box-shadow: none; }
+  .eyebrow, .note, footer { color: #9eb3cb; }
+  .route { color: #6bbcff; }
+  button.secondary { border-color: #3c5471; background: #132949; color: #dceaff; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .status-card, .share-card { animation: reveal 320ms ease-out both; }
+  .share-card { animation-delay: 80ms; }
+  @keyframes reveal { from { opacity: 0; transform: translateY(0.5rem); } }
+}

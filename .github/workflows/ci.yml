@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  public-boundary:
+    name: Public boundary
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Validate project and public tree
+        run: |
+          python3 scripts/validate_project.py
+          python3 scripts/repo_guard.py tree
+          python3 scripts/repo_guard.py docs
+          python3 scripts/repo_guard.py secrets --scope tree
+          python3 scripts/repo_guard.py secrets --scope history
+
+  ios:
+    name: iPhone simulator
+    needs: public-boundary
+    runs-on: macos-15
+    timeout-minutes: 40
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Report toolchain
+        run: |
+          sw_vers
+          xcodebuild -version
+          swift --version
+      - name: Build, test, and capture simulator proof
+        run: ./scripts/ci.sh
+      - name: Upload simulator proof and compiler logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nexquote-ios-proof
+          path: artifacts/
+          if-no-files-found: warn
+          retention-days: 14
+
