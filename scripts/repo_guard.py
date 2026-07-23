@@ -134,13 +134,13 @@ def check_history_secrets() -> int:
         object_id, _, relative = line.partition(" ")
         if not relative or object_id in seen:
             continue
+        if run("git", "cat-file", "-t", object_id).strip() != b"blob":
+            continue
         seen.add(object_id)
         if path_violation(relative):
             failures.append(f"history path outside allowlist: {relative}")
             continue
         if Path(relative).suffix.lower() in BINARY_SUFFIXES:
-            continue
-        if run("git", "cat-file", "-t", object_id).strip() != b"blob":
             continue
         if int(run("git", "cat-file", "-s", object_id)) > 2 * 1024 * 1024:
             continue
