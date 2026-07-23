@@ -33,6 +33,7 @@ final class AppHarnessUITests: XCTestCase {
         app.launch()
         let action = app.buttons["Simulate Quick Action"]
         XCTAssertTrue(action.waitForExistence(timeout: 10))
+        reveal(action, in: app)
         action.tap()
         XCTAssertTrue(app.staticTexts["Quote intake"].waitForExistence(timeout: 5))
     }
@@ -42,7 +43,15 @@ final class AppHarnessUITests: XCTestCase {
         app.launch()
         let action = app.buttons["Show offline state"]
         XCTAssertTrue(action.waitForExistence(timeout: 10))
+        reveal(action, in: app)
         action.tap()
         XCTAssertTrue(app.staticTexts["Offline — no action has been confirmed"].waitForExistence(timeout: 5))
+    }
+
+    private func reveal(_ element: XCUIElement, in app: XCUIApplication) {
+        for _ in 0..<4 where !element.isHittable {
+            app.swipeUp()
+        }
+        XCTAssertTrue(element.isHittable)
     }
 }
