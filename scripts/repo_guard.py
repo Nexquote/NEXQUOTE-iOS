@@ -125,10 +125,13 @@ def check_tree_secrets() -> int:
 def check_history_secrets() -> int:
     try:
         objects = run("git", "rev-list", "--objects", "--all").decode().splitlines()
+        roots = run("git", "rev-list", "--max-parents=0", "--all").decode().splitlines()
     except subprocess.CalledProcessError:
         print("History scan requires an initialized Git repository.")
         return 1
     failures = []
+    if len(roots) != 1:
+        failures.append(f"fresh history must have exactly one root commit; found {len(roots)}")
     seen = set()
     for line in objects:
         object_id, _, relative = line.partition(" ")
