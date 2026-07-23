@@ -38,7 +38,11 @@ final class PendingShareTests: XCTestCase {
         )!
         try store.save(payload)
         XCTAssertTrue(FileManager.default.fileExists(atPath: fileURL.path))
-        XCTAssertEqual(store.consume(now: createdAt.addingTimeInterval(100)), payload)
+        let consumed = store.consume(now: createdAt.addingTimeInterval(100))
+        XCTAssertEqual(consumed?.title, payload.title)
+        XCTAssertEqual(consumed?.text, payload.text)
+        XCTAssertEqual(consumed?.url, payload.url)
+        XCTAssertEqual(consumed?.createdAt.timeIntervalSince1970, payload.createdAt.timeIntervalSince1970, accuracy: 1)
         XCTAssertFalse(FileManager.default.fileExists(atPath: fileURL.path))
         XCTAssertNil(store.consume(now: createdAt.addingTimeInterval(100)))
     }

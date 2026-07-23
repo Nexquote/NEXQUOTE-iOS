@@ -38,6 +38,7 @@
 		B20000000000000000000013 /* PendingShareTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000043 /* PendingShareTests.swift */; };
 		B20000000000000000000014 /* LocalizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000044 /* LocalizationTests.swift */; };
 		B20000000000000000000016 /* AppHarnessUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000045 /* AppHarnessUITests.swift */; };
+		B20000000000000000000017 /* BridgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000048 /* BridgeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -113,6 +114,7 @@
 		B20000000000000000000045 /* AppHarnessUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppHarnessUITests.swift; sourceTree = "<group>"; };
 		B20000000000000000000046 /* AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B20000000000000000000047 /* AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B20000000000000000000048 /* BridgeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,6 +179,7 @@
 			children = (
 				50379B222058CBB4000EE86E /* capacitor.config.json */,
 				504EC3071FED79650016851F /* AppDelegate.swift */,
+				B20000000000000000000048 /* BridgeViewController.swift */,
 				504EC30B1FED79650016851F /* Main.storyboard */,
 				504EC30E1FED79650016851F /* Assets.xcassets */,
 				504EC3101FED79650016851F /* LaunchScreen.storyboard */,
@@ -429,6 +432,7 @@
 				B20000000000000000000004 /* AppConfiguration.swift in Sources */,
 				B20000000000000000000005 /* AppStrings.swift in Sources */,
 				504EC3081FED79650016851F /* AppDelegate.swift in Sources */,
+				B20000000000000000000017 /* BridgeViewController.swift in Sources */,
 				B20000000000000000000002 /* NativeBridgeState.swift in Sources */,
 				B20000000000000000000001 /* NativeRoute.swift in Sources */,
 				B20000000000000000000003 /* PendingShare.swift in Sources */,

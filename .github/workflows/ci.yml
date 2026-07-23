@@ -21,7 +21,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Check out source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - name: Validate project and public tree
@@ -39,7 +39,7 @@ jobs:
     timeout-minutes: 40
     steps:
       - name: Check out source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - name: Report toolchain
@@ -51,10 +51,9 @@ jobs:
         run: ./scripts/ci.sh
       - name: Upload simulator proof and compiler logs
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: nexquote-ios-proof
           path: artifacts/
           if-no-files-found: warn
           retention-days: 14
-

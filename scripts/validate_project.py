@@ -26,6 +26,7 @@ def main() -> int:
         "App/public/index.html",
         "App/public/bridge.js",
         "App/public/styles.css",
+        "App/BridgeViewController.swift",
         "Shared/PrivacyInfo.xcprivacy",
     ]
     failures.extend(f"missing {path}" for path in required if not (ROOT / path).is_file())
@@ -134,4 +135,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
-

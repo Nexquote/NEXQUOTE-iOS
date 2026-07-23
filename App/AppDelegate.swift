@@ -12,7 +12,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate, WKScriptMessageHand
     private let routeEventName = "nq:native-route"
     private let shareEventName = "nq:native-share"
     private var bridgeState = NativeBridgeState()
-    private var bridgeHandlerInstalled = false
+    private weak var bridgeHandlerWebView: WKWebView?
 
     func application(
         _ application: UIApplication,
@@ -35,10 +35,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate, WKScriptMessageHand
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         guard let webView = bridgeWebView else { return }
-        installBridgeHandler(on: webView)
-        loadHostedApplicationIfNeeded(in: webView)
-        consumePendingShare()
-        deliverNextIfPossible(in: webView)
+        connectBridge(to: webView)
     }
 
     func application(
@@ -110,10 +107,20 @@ final class AppDelegate: UIResponder, UIApplicationDelegate, WKScriptMessageHand
         (window?.rootViewController as? CAPBridgeViewController)?.webView
     }
 
+    func connectBridge(to webView: WKWebView) {
+        installBridgeHandler(on: webView)
+        loadHostedApplicationIfNeeded(in: webView)
+        consumePendingShare()
+        deliverNextIfPossible(in: webView)
+    }
+
     private func installBridgeHandler(on webView: WKWebView) {
-        guard !bridgeHandlerInstalled else { return }
+        guard bridgeHandlerWebView !== webView else { return }
+        bridgeHandlerWebView?.configuration.userContentController.removeScriptMessageHandler(
+            forName: bridgeMessageName
+        )
         webView.configuration.userContentController.add(self, name: bridgeMessageName)
-        bridgeHandlerInstalled = true
+        bridgeHandlerWebView = webView
     }
 
     private func loadHostedApplicationIfNeeded(in webView: WKWebView) {
