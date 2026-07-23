@@ -4,6 +4,10 @@ NexQuote iOS is the native client shell for freight-forwarding teams using the h
 
 > Status: public engineering preview. The simulator harness is reproducible. TestFlight and App Store distribution are not available yet.
 
+<p align="center">
+  <img src="docs/media/nexquote-ios-simulator.png" alt="NexQuote iOS simulator showing secure quote intake and a sanitized Share Extension handoff" width="360">
+</p>
+
 ## Native value
 
 - Share text or a web URL into a protected, expiring quote-intake handoff.
@@ -79,4 +83,3 @@ Read [Security policy](SECURITY.md) and [Privacy model](docs/PRIVACY.md).
 ## License status
 
 This repository is public for inspection and evaluation, not open source. No permission to copy, modify, redistribute, or create derivative works is granted. See [NOTICE](NOTICE). External contributions are not currently accepted.
-
