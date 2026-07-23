@@ -5,18 +5,25 @@ final class AppHarnessUITests: XCTestCase {
         continueAfterFailure = false
     }
 
-    func testColdLaunchRouteAndSanitizedShareHandoff() {
+    func testColdLaunchRouteDelivery() {
         let app = XCUIApplication()
         app.launchArguments = [
             "-NQHarnessRoute",
             "/app/rates/import?source=deep-link",
         ]
+        app.launch()
+
+        XCTAssertTrue(app.staticTexts["Rate import"].waitForExistence(timeout: 10))
+    }
+
+    func testSanitizedShareHandoff() {
+        let app = XCUIApplication()
         app.launchEnvironment = [
             "NQ_HARNESS_SHARE_TEXT": "Synthetic freight request for simulator proof",
         ]
         app.launch()
 
-        XCTAssertTrue(app.staticTexts["Rate import"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.staticTexts["Quote intake"].waitForExistence(timeout: 10))
         XCTAssertTrue(app.staticTexts["Shared content ready"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.staticTexts["Synthetic freight request for simulator proof"].exists)
     }
