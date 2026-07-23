@@ -9,6 +9,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate, WKScriptMessageHand
     private let configuration = AppConfiguration()
     private let appGroupIdentifier = "group.com.nexquote.app"
     private let bridgeMessageName = "nqBridge"
+    private let bridgeAvailableEventName = "nq:native-bridge-available"
     private let routeEventName = "nq:native-route"
     private let shareEventName = "nq:native-share"
     private var bridgeState = NativeBridgeState()
@@ -111,6 +112,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate, WKScriptMessageHand
         installBridgeHandler(on: webView)
         loadHostedApplicationIfNeeded(in: webView)
         consumePendingShare()
+        announceBridgeAvailability(in: webView)
         deliverNextIfPossible(in: webView)
     }
 
@@ -128,6 +130,12 @@ final class AppDelegate: UIResponder, UIApplicationDelegate, WKScriptMessageHand
         if webView.url?.scheme == startURL.scheme, webView.url?.host == startURL.host { return }
         bridgeState.markFrontendUnavailable()
         webView.load(URLRequest(url: startURL, cachePolicy: .reloadIgnoringLocalCacheData))
+    }
+
+    private func announceBridgeAvailability(in webView: WKWebView) {
+        webView.evaluateJavaScript(
+            "window.dispatchEvent(new Event(\(jsonString(bridgeAvailableEventName))));"
+        )
     }
 
     @discardableResult

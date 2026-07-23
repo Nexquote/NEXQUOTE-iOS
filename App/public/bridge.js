@@ -1,11 +1,13 @@
 (() => {
   const ROUTE_EVENT = 'nq:native-route'
   const SHARE_EVENT = 'nq:native-share'
+  const BRIDGE_AVAILABLE_EVENT = 'nq:native-bridge-available'
   let pendingShare = null
   let offlineDemo = false
 
   const bridge = () => window.webkit?.messageHandlers?.nqBridge
   const post = (message) => bridge()?.postMessage(message)
+  const announceReady = () => post({ type: 'ready', version: 1 })
 
   const routeTitle = (path) => {
     if (path.startsWith('/app/quotes/new')) return 'Quote intake'
@@ -26,6 +28,8 @@
     if (!payload || typeof payload !== 'object') return
     pendingShare = payload
   })
+
+  window.addEventListener(BRIDGE_AVAILABLE_EVENT, announceReady)
 
   window.addEventListener(ROUTE_EVENT, (event) => {
     const { id, path } = event.detail || {}
@@ -59,6 +63,6 @@
       offlineDemo = !offlineDemo
       renderConnection()
     })
-    post({ type: 'ready', version: 1 })
+    announceReady()
   })
 })()
