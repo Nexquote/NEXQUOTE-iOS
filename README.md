@@ -5,7 +5,8 @@ NexQuote iOS is the native client shell for freight-forwarding teams using the h
 > Status: public engineering preview. The simulator harness is reproducible. TestFlight and App Store distribution are not available yet.
 
 <p align="center">
-  <img src="docs/media/nexquote-ios-simulator.png" alt="NexQuote iOS simulator showing secure quote intake and a sanitized Share Extension handoff" width="360">
+  <img src="docs/media/nexquote-ios-simulator.png" alt="NexQuote iOS light simulator showing secure quote intake and a sanitized Share Extension handoff" width="320">
+  <img src="docs/media/nexquote-ios-dark-vi-simulator.png" alt="NexQuote iOS dark simulator showing the Vietnamese secure quote intake and Share Extension handoff" width="320">
 </p>
 
 ## Native value
@@ -55,7 +56,7 @@ python3 scripts/repo_guard.py docs
 python3 scripts/repo_guard.py secrets --scope tree
 ```
 
-The iOS gate resolves packages, validates plists and entitlements, runs unit and UI tests, builds Debug and Release simulator products, validates the embedded Share Extension, then launches and captures scrubbed proof on iPhone 16 Pro and iPhone SE (3rd generation) simulators under `artifacts/`.
+The iOS gate resolves packages, validates plists and entitlements, runs unit and UI tests, builds Debug and Release simulator products, validates the embedded Share Extension, then launches and captures scrubbed proof on iPhone 16 Pro and iPhone SE (3rd generation) simulators under `artifacts/`. UI coverage includes English/Vietnamese labels, light/dark appearance, accessibility text size, offline/reconnect state, and accessible action names.
 
 ## Hosted configuration
 

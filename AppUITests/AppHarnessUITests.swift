@@ -46,6 +46,34 @@ final class AppHarnessUITests: XCTestCase {
         reveal(action, in: app)
         action.tap()
         XCTAssertTrue(app.staticTexts["Offline — no action has been confirmed"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["Show reconnect state"].waitForExistence(timeout: 5))
+        app.buttons["Show reconnect state"].tap()
+        XCTAssertTrue(app.staticTexts["Local harness ready"].waitForExistence(timeout: 5))
+    }
+
+    func testVietnameseLocalizationExposesAccessibleActions() {
+        let app = XCUIApplication()
+        app.launchArguments = ["-AppleLanguages", "(vi)"]
+        app.launch()
+
+        XCTAssertTrue(app.staticTexts["Quyết định vận tải, sẵn sàng để rà soát."].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.buttons["Mô phỏng Quick Action"].exists)
+        XCTAssertTrue(app.buttons["Hiện trạng thái ngoại tuyến"].exists)
+    }
+
+    func testDarkModeAndAccessibilityTextSizeKeepActionsReachable() {
+        let app = XCUIApplication()
+        app.launchArguments = [
+            "-AppleInterfaceStyle", "Dark",
+            "-UIPreferredContentSizeCategoryName", "UICTContentSizeCategoryAccessibilityExtraExtraExtraLarge",
+        ]
+        app.launch()
+
+        let action = app.buttons["Simulate Quick Action"]
+        XCTAssertTrue(action.waitForExistence(timeout: 10))
+        reveal(action, in: app)
+        action.tap()
+        XCTAssertTrue(app.staticTexts["Quote intake"].waitForExistence(timeout: 5))
     }
 
     private func reveal(_ element: XCUIElement, in app: XCUIApplication) {
