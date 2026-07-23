@@ -51,7 +51,7 @@ jobs:
         run: ./scripts/ci.sh
       - name: Upload simulator proof and compiler logs
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: nexquote-ios-proof
           path: artifacts/
