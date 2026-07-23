@@ -74,9 +74,9 @@ enum NativeRouteParser {
     }
 
     static func path(for url: URL, hostedHost: String) -> String? {
-        guard url.user == nil, url.password == nil else { return nil }
+        guard url.user == nil, url.password == nil, url.fragment == nil else { return nil }
 
-        if url.scheme?.lowercased() == "nexquote", url.host?.lowercased() == "app" {
+        if url.scheme?.lowercased() == "nexquote", url.host?.lowercased() == "app", url.port == nil {
             let query = URLComponents(url: url, resolvingAgainstBaseURL: false)?.percentEncodedQuery
             return normalize(path: "/app\(url.path)\(query.map { "?\($0)" } ?? "")")
         }

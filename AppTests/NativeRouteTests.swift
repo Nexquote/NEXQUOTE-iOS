@@ -58,6 +58,14 @@ final class NativeRouteTests: XCTestCase {
             for: URL(string: "https://nexquoteapp.com:444/app/dashboard?source=universal-link")!,
             hostedHost: "nexquoteapp.com"
         ))
+        XCTAssertNil(NativeRouteParser.path(
+            for: URL(string: "nexquote://app:444/quotes/new?source=deep-link")!,
+            hostedHost: "nexquoteapp.com"
+        ))
+        XCTAssertNil(NativeRouteParser.path(
+            for: URL(string: "https://nexquoteapp.com/app/dashboard?source=universal-link#private")!,
+            hostedHost: "nexquoteapp.com"
+        ))
     }
 
     func testCanonicalizesAllowedQueryNames() {

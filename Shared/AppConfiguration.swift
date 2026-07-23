@@ -45,14 +45,22 @@ struct AppConfiguration: Equatable {
         hostedOrigin?.appendingPathComponent("app/dashboard")
     }
 
-    func trusts(protocol webProtocol: String, host: String) -> Bool {
+    func trusts(protocol webProtocol: String, host: String, port: Int = 0) -> Bool {
         switch mode {
         case .harness:
-            return host.lowercased() == "localhost" && ["capacitor", "https"].contains(webProtocol.lowercased())
+            return host.lowercased() == "localhost"
+                && ((webProtocol.lowercased() == "capacitor" && port == 0)
+                    || (webProtocol.lowercased() == "https" && [0, 443].contains(port)))
         case .hosted:
             return hostedOrigin != nil
                 && webProtocol.lowercased() == "https"
                 && host.lowercased() == hostedHost.lowercased()
+                && [0, 443].contains(port)
         }
+    }
+
+    func trusts(url: URL?) -> Bool {
+        guard let url, let scheme = url.scheme, let host = url.host else { return false }
+        return trusts(protocol: scheme, host: host, port: url.port ?? 0)
     }
 }

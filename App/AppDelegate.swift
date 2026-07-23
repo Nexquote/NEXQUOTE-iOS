@@ -81,17 +81,27 @@ final class AppDelegate: UIResponder, UIApplicationDelegate, WKScriptMessageHand
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         guard
             message.name == bridgeMessageName,
-            configuration.trusts(protocol: message.frameInfo.securityOrigin.protocol, host: message.frameInfo.securityOrigin.host),
+            message.frameInfo.isMainFrame,
+            configuration.trusts(
+                protocol: message.frameInfo.securityOrigin.protocol,
+                host: message.frameInfo.securityOrigin.host,
+                port: message.frameInfo.securityOrigin.port
+            ),
             let body = message.body as? [String: Any],
             let type = body["type"] as? String
         else { return }
 
         switch type {
         case "ready":
+            guard (body["version"] as? NSNumber)?.intValue == 1 else { return }
             bridgeState.markFrontendReady()
             if let webView = message.webView { deliverNextIfPossible(in: webView) }
         case "ack":
-            guard let id = body["id"] as? String, bridgeState.acknowledge(id: id) else { return }
+            guard
+                body["status"] as? String == "accepted",
+                let id = body["id"] as? String,
+                bridgeState.acknowledge(id: id)
+            else { return }
             if let webView = message.webView { deliverNextIfPossible(in: webView) }
         case "harness-route":
             guard
@@ -127,7 +137,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate, WKScriptMessageHand
 
     private func loadHostedApplicationIfNeeded(in webView: WKWebView) {
         guard let startURL = configuration.startURL else { return }
-        if webView.url?.scheme == startURL.scheme, webView.url?.host == startURL.host { return }
+        if configuration.trusts(url: webView.url) { return }
         bridgeState.markFrontendUnavailable()
         webView.load(URLRequest(url: startURL, cachePolicy: .reloadIgnoringLocalCacheData))
     }
@@ -146,6 +156,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate, WKScriptMessageHand
     }
 
     private func deliverNextIfPossible(in webView: WKWebView) {
+        guard configuration.trusts(url: webView.url) else {
+            bridgeState.markFrontendUnavailable()
+            return
+        }
         guard let delivery = bridgeState.nextForDelivery() else { return }
 
         var scripts: [String] = []

@@ -4,6 +4,8 @@
 
 Messages use the `nqBridge` WebKit message handler.
 
+Native also emits `nq:native-bridge-available` after installing the handler. The consumer responds with `ready`; the normal startup `ready` remains required so either initialization order completes the handshake without timer retries.
+
 ```json
 { "type": "ready", "version": 1 }
 ```
@@ -36,4 +38,3 @@ Sanitized share data arrives first through `nq:native-share` with the same deliv
 ```
 
 Consumers must register both event listeners before sending `ready`. A route must be acknowledged only after it is accepted for navigation or safely preserved through authentication redirect. Share payloads must stay outside URLs, logs, analytics, and customer-facing output until the operator reviews them.
-
