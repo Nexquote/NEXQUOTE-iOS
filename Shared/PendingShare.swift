@@ -10,6 +10,10 @@ struct PendingSharePayload: Codable, Equatable {
 enum PendingShareSanitizer {
     static let maximumEncodedBytes = 65_536
     static let maximumAge: TimeInterval = 10 * 60
+    private static let sensitiveQueryNames = [
+        "access_token", "api_key", "authorization", "code", "credential", "jwt",
+        "password", "refresh_token", "secret", "session", "token",
+    ]
 
     static func payload(
         createdAt: Date = Date(),
@@ -62,7 +66,12 @@ enum PendingShareSanitizer {
             ["http", "https"].contains(scheme),
             components.host?.isEmpty == false,
             components.user == nil,
-            components.password == nil
+            components.password == nil,
+            components.fragment == nil,
+            !(components.queryItems ?? []).contains(where: { item in
+                let name = item.name.lowercased()
+                return sensitiveQueryNames.contains(where: { name.contains($0) })
+            })
         else { return nil }
         return components.string
     }

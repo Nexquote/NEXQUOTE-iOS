@@ -24,6 +24,8 @@ final class PendingShareTests: XCTestCase {
         XCTAssertEqual(payload?.url, "https://example.com/request")
         XCTAssertNil(PendingShareSanitizer.cleanURL("javascript:alert(1)"))
         XCTAssertNil(PendingShareSanitizer.cleanURL("https://user:password@example.com"))
+        XCTAssertNil(PendingShareSanitizer.cleanURL("https://example.com/request?access_token=secret"))
+        XCTAssertNil(PendingShareSanitizer.cleanURL("https://example.com/request#credential"))
     }
 
     func testSerializationRoundTripConsumesAndDeletesFile() throws {
