@@ -55,7 +55,7 @@ python3 scripts/repo_guard.py docs
 python3 scripts/repo_guard.py secrets --scope tree
 ```
 
-The iOS gate resolves packages, validates plists and entitlements, runs unit and UI tests, builds Debug and Release simulator products, validates the embedded Share Extension, then launches and captures scrubbed proof on iPhone 16 Pro and iPhone SE (3rd generation) simulators under `artifacts/`.
+The iOS gate resolves packages, validates plists and entitlements, runs unit and UI tests, builds Debug and Release simulator products, validates the embedded Share Extension, then launches and captures scrubbed proof on iPhone 16 Pro and iPhone SE (3rd generation) simulators under `artifacts/`. UI coverage includes English/Vietnamese labels, light/dark appearance, accessibility text size, offline/reconnect state, and accessible action names.
 
 ## Hosted configuration
 

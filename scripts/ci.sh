@@ -73,6 +73,15 @@ SIMCTL_CHILD_NQ_HARNESS_SHARE_TEXT="Synthetic freight request for public simulat
 sleep 4
 xcrun simctl io "$SIMULATOR_UDID" screenshot "$ARTIFACTS_PATH/nexquote-ios-simulator.png"
 
+xcrun simctl ui "$SIMULATOR_UDID" appearance dark
+SIMCTL_CHILD_NQ_HARNESS_SHARE_TEXT="Yêu cầu vận tải mẫu cho bằng chứng simulator" \
+  xcrun simctl launch --terminate-running-process "$SIMULATOR_UDID" com.nexquote.app \
+  -AppleLanguages "(vi)" \
+  -NQHarnessRoute "/app/rates/import?source=deep-link"
+sleep 4
+xcrun simctl io "$SIMULATOR_UDID" screenshot "$ARTIFACTS_PATH/nexquote-ios-dark-vi-simulator.png"
+xcrun simctl ui "$SIMULATOR_UDID" appearance light
+
 xcrun simctl boot "$COMPACT_SIMULATOR_UDID" 2>/dev/null || true
 xcrun simctl bootstatus "$COMPACT_SIMULATOR_UDID" -b
 COMPACT_COMMON=(
@@ -94,4 +103,4 @@ SIMCTL_CHILD_NQ_HARNESS_SHARE_TEXT="Synthetic freight request for compact simula
 sleep 4
 xcrun simctl io "$COMPACT_SIMULATOR_UDID" screenshot "$ARTIFACTS_PATH/nexquote-ios-compact-simulator.png"
 
-echo "iOS validation passed on full-size and compact iPhone simulators."
+echo "iOS validation passed on full-size and compact iPhone simulators, including dark/VI proof."
