@@ -85,8 +85,11 @@ body.offline .dot { background: #d68a17; }
   body { background: radial-gradient(circle at 85% 8%, rgba(41, 163, 255, 0.17), transparent 32%), #08152b; }
   .status-card, .share-card { border-color: rgba(171, 204, 241, 0.12); background: rgba(16, 38, 77, 0.92); box-shadow: none; }
   .eyebrow, .note, footer { color: #9eb3cb; }
+  .status-row { color: #77d6a3; }
+  .privacy-note { color: #f1c46f; }
   .route { color: #6bbcff; }
   button.secondary { border-color: #3c5471; background: #132949; color: #dceaff; }
+  body.offline .status-row { color: #f1b85a; }
 }
 
 @media (prefers-reduced-motion: no-preference) {

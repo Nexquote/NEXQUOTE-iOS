@@ -9,6 +9,20 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def relative_luminance(hex_color: str) -> float:
+    channels = [int(hex_color[index:index + 2], 16) / 255 for index in (1, 3, 5)]
+    linear = [value / 12.92 if value <= 0.04045 else ((value + 0.055) / 1.055) ** 2.4 for value in channels]
+    return 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2]
+
+
+def contrast_ratio(foreground: str, background: str) -> float:
+    lighter, darker = sorted(
+        (relative_luminance(foreground), relative_luminance(background)),
+        reverse=True,
+    )
+    return (lighter + 0.05) / (darker + 0.05)
+
+
 def read(relative: str) -> str:
     return (ROOT / relative).read_text(encoding="utf-8")
 
@@ -104,11 +118,18 @@ def main() -> int:
 
     html = read("App/public/index.html")
     bridge = read("App/public/bridge.js")
+    styles = read("App/public/styles.css")
     if "connect-src 'none'" not in html or "Content-Security-Policy" not in html:
         failures.append("local harness CSP missing or too broad")
     for token in ["nq:native-route", "nq:native-share", "type: 'ready'", "type: 'ack'"]:
         if token not in bridge:
             failures.append(f"local harness bridge missing {token}")
+
+    for foreground in ["#77d6a3", "#f1c46f", "#f1b85a"]:
+        if foreground not in styles:
+            failures.append(f"dark harness contrast color missing: {foreground}")
+        elif contrast_ratio(foreground, "#10264d") < 4.5:
+            failures.append(f"dark harness contrast below WCAG AA: {foreground}")
 
     keys = {
         "quick.create_quote", "quick.import_rates", "quick.decision_inbox",
