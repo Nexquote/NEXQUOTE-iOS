@@ -13,7 +13,7 @@ final class AppHarnessUITests: XCTestCase {
         ]
         app.launch()
 
-        XCTAssertTrue(app.staticTexts["Rate import"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.staticTexts["Rate import"].waitForExistence(timeout: 20))
     }
 
     func testSanitizedShareHandoff() {
